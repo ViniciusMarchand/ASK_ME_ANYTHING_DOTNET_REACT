@@ -6,11 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace backend.Services
 {
-    public class TokenGenerator
+    public class TokenGeneratorService
     {
         private readonly IConfiguration _configuration;
 
-        public TokenGenerator(IConfiguration configuration)
+        public TokenGeneratorService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -18,7 +18,7 @@ namespace backend.Services
         public string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]!);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

@@ -1,34 +1,44 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using backend.Models;
+
 using backend.Services;
 using backend.DTO;
+using backend.Repositories;
 
 namespace backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
-    public class AuthController(ApplicationDbContext context, TokenGenerator tokenGenerator) : ControllerBase
+    public class AuthController(AuthRepository authRepository) : ControllerBase
     {
-        private readonly ApplicationDbContext _context = context;
+        readonly AuthRepository _authRepository = authRepository;
 
-        private readonly TokenGenerator _tokenGenerator = tokenGenerator;
-
-        [HttpPost("Login")]
-        public async Task<ActionResult<object>> Login(UserLoginDTO dto)
+        [HttpPost("login")]
+        public async Task<ActionResult<AccessTokenDTO>> Login(UserLoginDTO dto)
         {
-
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == dto.Username && u.Password == dto.Password);
-            
-
-            if (user == null)
+            try
             {
-                return NotFound("Usuário não encontrado");
+                AccessTokenDTO token = await _authRepository.Login(dto);
+                return Ok(token);
             }
-
-            return Ok(new {accsesToken = _tokenGenerator.GenerateToken(user)});
-
+            catch (KeyNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
+
+        [HttpPost("register")]
+        public async Task<ActionResult<AccessTokenDTO>> Register(UserDTO dto)
+        {
+            try
+            {
+                var user = await _authRepository.Register(dto);
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+            }
+        }
     }
 }

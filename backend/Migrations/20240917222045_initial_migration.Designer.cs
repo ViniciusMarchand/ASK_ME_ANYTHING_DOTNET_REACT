@@ -12,7 +12,7 @@ using backend.Services;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240916235219_initial_migration")]
+    [Migration("20240917222045_initial_migration")]
     partial class initial_migration
     {
         /// <inheritdoc />
@@ -250,6 +250,12 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

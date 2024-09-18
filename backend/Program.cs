@@ -1,5 +1,6 @@
 using System.Text;
 using backend.Models;
+using backend.Repositories;
 using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +66,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     });
-builder.Services.AddScoped<TokenGenerator>();
+
+builder.Services.AddScoped<TokenGeneratorService>();
+builder.Services.AddScoped<AuthRepository>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
