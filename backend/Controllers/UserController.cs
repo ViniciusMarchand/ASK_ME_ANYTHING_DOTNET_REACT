@@ -2,12 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using backend.Services;
-using backend.DTO;
 using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class UserController(ApplicationDbContext context) : ControllerBase
     {

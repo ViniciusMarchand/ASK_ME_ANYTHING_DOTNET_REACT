@@ -69,6 +69,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<TokenGeneratorService>();
 builder.Services.AddScoped<AuthRepository>();
+builder.Services.AddScoped<QuestionReposipository>();
 
 var app = builder.Build();
 
