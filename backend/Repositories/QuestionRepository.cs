@@ -14,13 +14,19 @@ public class QuestionReposipository (ApplicationDbContext context)
         return await _context.Questions.ToListAsync();
     }
 
-    public async Task<Question> PostQuestion(QuestionDTO question)
+    public async Task<Question> Save(QuestionDTO question)
     {
+        var user = await _context.Users.FindAsync(question.UserId);
+        var category = await _context.Categories.FindAsync(question.CategoryId);
+        
         var newQuestion = new Question
         {
             Title = question.Title,
             Body = question.Body,
-            UserId = question.UserId
+            User = user!,
+            UserId = question.UserId,
+            Category = category!,
+            CategoryId = category!.Id,
         };
 
         _context.Questions.Add(newQuestion);

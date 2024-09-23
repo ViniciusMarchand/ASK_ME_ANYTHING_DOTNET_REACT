@@ -35,7 +35,7 @@ public class AuthRepository(ApplicationDbContext context, TokenGeneratorService 
         var Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
         var emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
         if (!emailRegex.IsMatch(dto.Email))
-            throw new Exception("Email inválido");
+            throw new Exception("Invalid email");
         
         var user = new User
         {
@@ -60,11 +60,11 @@ public class AuthRepository(ApplicationDbContext context, TokenGeneratorService 
             var message = e.InnerException?.Message ?? string.Empty;
             if (message.Contains("IX_Users_Username"))
             {
-                throw new Exception("Nome de usuário indisponível");
+                throw new Exception("Username unavailable");
             }
             else if (message.Contains("IX_Users_Email"))
             {
-                throw new Exception("Email indisponível");
+                throw new Exception("Email unavailable");
             }
 
             throw new Exception("Erro ao criar usuário.");

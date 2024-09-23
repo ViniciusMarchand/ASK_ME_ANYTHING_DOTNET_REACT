@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +27,12 @@ namespace backend.Controllers
         [Authorize]
         public async Task<ActionResult<Question>> PostQuestion(QuestionDTO question)
         {
-            var newQuestion = await _repository.PostQuestion(question);
+            var newQuestion = await _repository.Save(question);
+
+            if(newQuestion.User == null)
+            {
+                return BadRequest("User not found");
+            }
 
             return Ok(newQuestion);
 
