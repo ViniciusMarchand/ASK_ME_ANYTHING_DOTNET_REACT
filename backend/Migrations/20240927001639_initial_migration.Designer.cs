@@ -12,8 +12,8 @@ using backend.Services;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240923020106_add_initial_migration")]
-    partial class add_initial_migration
+    [Migration("20240927001639_initial_migration")]
+    partial class initial_migration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -233,14 +233,14 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("isAccepted")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 

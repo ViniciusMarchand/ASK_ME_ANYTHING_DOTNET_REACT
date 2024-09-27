@@ -12,7 +12,6 @@ public class Question
     [JsonIgnore]
     public User User { get; set; } = null!;
     
-    [JsonIgnore]
     public List<Answer> Answers { get; set; } = [];
 
     [JsonIgnore]

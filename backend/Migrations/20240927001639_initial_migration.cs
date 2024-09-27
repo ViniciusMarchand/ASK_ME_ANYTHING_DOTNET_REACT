@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class add_initial_migration : Migration
+    public partial class initial_migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -224,7 +224,7 @@ namespace backend.Migrations
                     Body = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     QuestionId = table.Column<int>(type: "integer", nullable: false),
-                    isAccepted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsAccepted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -67,10 +67,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddScoped<TokenGeneratorService>();
+builder.Services.AddScoped<AnswerRepository>();
 builder.Services.AddScoped<AuthRepository>();
-builder.Services.AddScoped<QuestionReposipository>();
 builder.Services.AddScoped<CategoryRepository>();
+builder.Services.AddScoped<QuestionReposipository>();
+builder.Services.AddScoped<TokenGeneratorService>();
 
 var app = builder.Build();
 

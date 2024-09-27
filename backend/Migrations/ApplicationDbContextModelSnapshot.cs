@@ -230,14 +230,14 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("isAccepted")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
