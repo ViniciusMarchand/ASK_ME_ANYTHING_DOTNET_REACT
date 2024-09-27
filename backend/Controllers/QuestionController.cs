@@ -16,7 +16,6 @@ namespace backend.Controllers
         private readonly QuestionReposipository _repository = repository;
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
         {
             var questions = await _repository.GetQuestions();

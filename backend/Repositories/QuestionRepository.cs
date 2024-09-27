@@ -11,7 +11,7 @@ public class QuestionReposipository (ApplicationDbContext context)
 
     public async Task<IEnumerable<Question>> GetQuestions()
     {
-        return await _context.Questions.Include(q => q.Answers).ToListAsync();
+        return await _context.Questions.Include(q => q.Answers).Include(q => q.Comments).Include(q => q.Votes).ToListAsync();
     }
 
     public async Task<Question> Save(QuestionDTO question)

@@ -7,5 +7,9 @@ namespace backend.Models
         public int UserId { get; set; }
         public int QuestionId { get; set; }
         public bool IsAccepted { get; set; } = false;
+        public bool IsEdited { get; set; }
+        public List<Comment> Comments { get; set; } = [];
+        public List<Vote> Votes { get; set; } = [];
+
     }
 }

@@ -12,8 +12,8 @@ using backend.Services;
 namespace backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240927001639_initial_migration")]
-    partial class initial_migration
+    [Migration("20240927203635_att_vote")]
+    partial class att_vote
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -236,6 +236,9 @@ namespace backend.Migrations
                     b.Property<bool>("IsAccepted")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsEdited")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
@@ -263,7 +266,7 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("backend.Models.Comment", b =>
@@ -274,14 +277,14 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AnswerId")
+                    b.Property<int?>("AnswerId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Body")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("QuestionId")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -289,9 +292,13 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnswerId");
+
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Comment");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("backend.Models.Question", b =>
@@ -308,6 +315,9 @@ namespace backend.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IsEdited")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -375,10 +385,13 @@ namespace backend.Migrations
                     b.Property<int>("AnswerId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("QuestionId")
+                    b.Property<int?>("CommentId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<int>("VoteType")
@@ -386,7 +399,13 @@ namespace backend.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnswerId");
+
+                    b.HasIndex("CommentId");
+
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Votes");
                 });
@@ -453,11 +472,25 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Comment", b =>
                 {
-                    b.HasOne("backend.Models.Question", null)
+                    b.HasOne("backend.Models.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId");
+
+                    b.HasOne("backend.Models.Question", "Question")
                         .WithMany("Comments")
-                        .HasForeignKey("QuestionId")
+                        .HasForeignKey("QuestionId");
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Answer");
+
+                    b.Navigation("Question");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Question", b =>
@@ -481,11 +514,31 @@ namespace backend.Migrations
 
             modelBuilder.Entity("backend.Models.Vote", b =>
                 {
-                    b.HasOne("backend.Models.Question", null)
-                        .WithMany("Votes")
-                        .HasForeignKey("QuestionId")
+                    b.HasOne("backend.Models.Answer", "Answer")
+                        .WithMany()
+                        .HasForeignKey("AnswerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("backend.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
+
+                    b.HasOne("backend.Models.Question", "Question")
+                        .WithMany("Votes")
+                        .HasForeignKey("QuestionId");
+
+                    b.HasOne("backend.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Answer");
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Question");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("backend.Models.Category", b =>

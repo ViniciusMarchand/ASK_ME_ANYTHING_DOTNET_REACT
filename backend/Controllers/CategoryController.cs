@@ -14,7 +14,6 @@ namespace backend.Controllers
         private readonly CategoryRepository _repository = repository;
 
         [HttpGet]
-        [Authorize]
         public async Task<IEnumerable<Category>> GetAll()
         {
             return await _repository.GetCategories();

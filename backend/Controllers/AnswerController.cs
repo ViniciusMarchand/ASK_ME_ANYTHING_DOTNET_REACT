@@ -13,7 +13,6 @@ namespace backend.Controllers
         private readonly AnswerRepository _repository = repository;
 
         [HttpGet]
-        [Authorize]
         public async Task<ActionResult<IEnumerable<Answer>>> GetAll()
         {
             var answers = await _repository.GetAll();
