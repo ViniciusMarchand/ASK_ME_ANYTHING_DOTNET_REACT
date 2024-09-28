@@ -48,4 +48,14 @@ public class CommentRepository(ApplicationDbContext context)
 
         return newComment;
     }
+
+    public async Task<Comment> Delete (int id)
+    {
+        var comment = await _context.Comments.FindAsync(id) ?? throw new Exception("Comment not found");
+
+        _context.Comments.Remove(comment);
+        await _context.SaveChangesAsync();
+
+        return comment;
+    }
 }

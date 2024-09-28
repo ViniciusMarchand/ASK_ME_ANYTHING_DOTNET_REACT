@@ -27,4 +27,14 @@ public class CategoryRepository (ApplicationDbContext context)
         return newCategory;
     }
 
+    public async Task<Category> Delete(int id)
+    {
+        var category = await _context.Categories.FindAsync(id) ?? throw new Exception("Category not found");
+
+        _context.Categories.Remove(category);
+        await _context.SaveChangesAsync();
+
+        return category;
+    }
+
 }

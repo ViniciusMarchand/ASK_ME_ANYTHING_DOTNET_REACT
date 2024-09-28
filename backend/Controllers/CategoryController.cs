@@ -26,5 +26,12 @@ namespace backend.Controllers
             return await _repository.Save(category);
         }
 
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<Category> Delete(int id)
+        {
+            return await _repository.Delete(id);
+        }
+
     }
 }

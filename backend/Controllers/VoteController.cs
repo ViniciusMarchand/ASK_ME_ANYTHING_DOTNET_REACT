@@ -26,5 +26,13 @@ namespace backend.Controllers
             var newVote = await _repository.Save(vote);
             return Ok(newVote);
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Vote>> Delete(int id)
+        {
+            var vote = await _repository.Delete(id);
+            return Ok(vote);
+        }
     }
 }

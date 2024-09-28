@@ -28,4 +28,26 @@ public class AnswerRepository(ApplicationDbContext context)
 
         return newAnswer;
     }
+
+    public async Task<Answer> GetById (int id)
+    {
+        return await _context.Answers.FindAsync(id) ?? throw new Exception("Answer not found");
+    }
+
+    public async Task Update(Answer answer)
+    {
+        _context.Answers.Update(answer); 
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<Answer> Delete (int id)
+    {
+        var answer = await _context.Answers.FindAsync(id) ?? throw new Exception("Answer not found");
+
+        _context.Answers.Remove(answer);
+        await _context.SaveChangesAsync();
+
+        return answer;
+    }
 }

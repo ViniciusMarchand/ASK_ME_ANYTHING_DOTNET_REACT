@@ -48,4 +48,14 @@ public class VoteRepository(ApplicationDbContext context)
 
         return newVote;
     }
+
+    public async Task<Vote> Delete(int id)
+    {
+        var vote = await _context.Votes.FindAsync(id) ?? throw new Exception("Vote not found");
+
+        _context.Votes.Remove(vote);
+        await _context.SaveChangesAsync();
+
+        return vote;
+    }
 }

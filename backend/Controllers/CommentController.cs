@@ -26,5 +26,13 @@ namespace backend.Controllers
             var newComment = await _repository.Save(comment);
             return Ok(newComment);
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Comment>> Delete(int id)
+        {
+            var comment = await _repository.Delete(id);
+            return Ok(comment);
+        }
     }
 }

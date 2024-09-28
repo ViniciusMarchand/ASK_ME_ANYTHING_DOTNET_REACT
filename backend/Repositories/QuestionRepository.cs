@@ -34,4 +34,14 @@ public class QuestionReposipository (ApplicationDbContext context)
 
         return newQuestion;
     }
+
+    public async Task<Question> Delete(int id)
+    {
+        var question = await _context.Questions.FindAsync(id) ?? throw new Exception("Question not found");
+
+        _context.Questions.Remove(question);
+        await _context.SaveChangesAsync();
+
+        return question;
+    }
 }

@@ -74,6 +74,8 @@ builder.Services.AddScoped<CommentRepository>();
 builder.Services.AddScoped<QuestionReposipository>();
 builder.Services.AddScoped<TokenGeneratorService>();
 builder.Services.AddScoped<VoteRepository>();
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson();
 
 var app = builder.Build();
 

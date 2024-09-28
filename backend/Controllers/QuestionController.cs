@@ -36,5 +36,13 @@ namespace backend.Controllers
             return Ok(newQuestion);
 
         }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Question>> DeleteQuestion(int id)
+        {
+            var question = await _repository.Delete(id);
+            return Ok(question);
+        }
     }
 }
